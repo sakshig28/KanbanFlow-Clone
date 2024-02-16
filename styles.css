@@ -8,23 +8,41 @@
 /* Body styles */
 body {
     font-family: Arial, sans-serif;
+    background-color: #2a7cbb;
 }
 
 /* Header styles */
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: white;
+    color: black;
     padding: 10px 0;
     text-align: center;
+
+}
+
+header .svg-container {
+    width: 350px; /* Set the desired width */
+    height: auto; /* Maintain aspect ratio */
+    margin: 0 auto;
 }
 
 /* Navigation styles */
 nav {
-    background-color: #444;
-    color: #fff;
+    background-color: white;
+    color: black;
     padding: 10px 0;
     text-align: center;
+    position: relative;
 }
+
+.divider-line {
+    position: absolute;
+    top: 0; /* Position the line at the top of the bottom div */
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #ccc; /* Define the line style */
+}
+
 nav ul {
     list-style-type: none;
     margin: 0;
@@ -35,8 +53,21 @@ nav ul li {
     margin-right: 10px;
 }
 nav ul li a {
-    color: #fff;
+    color: black;
     text-decoration: none;
+}
+.login {
+    border: 1px solid #fff; /* White border */
+    border-radius: 5px; /* Optional: Add border radius */
+    margin-right: 10px; /* Optional: Add spacing between links */
+}
+
+/* Signup link styles */
+.signup {
+    background-color: green; /* Green background color */
+    border: 1px solid green; /* Green border */
+    border-radius: 5px;
+    padding: 8px 12px; /* Add padding to make the button look nicer */
 }
 
 /* Main content styles */
