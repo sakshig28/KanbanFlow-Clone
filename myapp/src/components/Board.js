@@ -36,6 +36,17 @@ const Board = () => {
       return updatedLists;
     });
   };
+  const handleListDrop = (sourceListId, targetListId) => {
+    setLists((prevLists) => {
+      const updatedLists = [...prevLists];
+      const sourceIndex = updatedLists.findIndex((list) => list.id === sourceListId);
+      const targetIndex = updatedLists.findIndex((list) => list.id === targetListId);
+      const [removed] = updatedLists.splice(sourceIndex, 1);
+      updatedLists.splice(targetIndex, 0, removed);
+      return updatedLists;
+    });
+  };
+
   const handleCreateCard = (listId) => {
     setLists((prevLists) => {
       const updatedLists = prevLists.map((list) => {
@@ -62,7 +73,24 @@ const Board = () => {
   const handleDeleteColumn = (columnId) => {
     setLists((prevLists) => prevLists.filter((list) => list.id !== columnId));
   };
-  
+
+  const handleUpdateCardContent = (cardId, newContent) => {
+    setLists((prevLists) => {
+      const updatedLists = [...prevLists];
+
+      // Find the list that contains the card
+      const list = updatedLists.find((list) =>
+        list.cards.find((card) => card.id === cardId)
+      );
+
+      // Find the card and update its content
+      const card = list.cards.find((card) => card.id === cardId);
+      card.content = newContent;
+
+      return updatedLists;
+    });
+  };
+
   const addColumn = () => {
     setShowModal(true);
   };
@@ -93,30 +121,30 @@ const Board = () => {
             key={list.id}
             list={list}
             cards={list.cards}
-            onCardDrop={handleCardDrop} 
+            onCardDrop={handleCardDrop}
             onCreateCard={handleCreateCard}
             onDeleteColumn={handleDeleteColumn}
+            onUpdateCardContent={handleUpdateCardContent}
+            onListDrop={handleListDrop}
           />
         ))}
         <button onClick={addColumn}>Add Another List</button>
         {showModal && (
           <div className="modal">
-          <div className="modal-content">
-            
-            <input
-              type="text"
-              value={newColumnTitle}
-              onChange={(e) => setNewColumnTitle(e.target.value)}
-            />
-            <div>
-              <button onClick={handleConfirmModal}>Add List</button>
-              <button className="close" onClick={handleCloseModal}>
-                Close
-              </button>
+            <div className="modal-content">
+              <input
+                type="text"
+                value={newColumnTitle}
+                onChange={(e) => setNewColumnTitle(e.target.value)}
+              />
+              <div>
+                <button onClick={handleConfirmModal}>Add List</button>
+                <button className="close" onClick={handleCloseModal}>
+                  Close
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        
         )}
       </div>
     </DndProvider>
