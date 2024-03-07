@@ -6,10 +6,10 @@ import { Auth } from './components/auth';
 function App() {
   return (
     <div className="App">
-      <Auth/>
       <header className="App-header">
-        <h1 className="App-title">Trello Clone</h1>
+        <h1 className="App-title">Chutes And Ladders</h1>
       </header>
+      <Auth/>
       <Board />
     </div>
   );
