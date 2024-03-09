@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import List from './List';
+import Save from "./Save";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { v4 as uuidv4 } from 'uuid';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../config/firebase';
 
 const Board = () => {
   const [lists, setLists] = useState([
@@ -13,6 +16,29 @@ const Board = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const listsCollection = collection(db, 'lists');
+        const querySnapshot = await getDocs(listsCollection);
+        const fetchedLists = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setLists(fetchedLists);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+
+    // Cleanup function
+    return () => {
+      // Perform any cleanup if necessary
+    };
+  }, []);
 
   const handleCardDrop = (cardId, targetListId) => {
     setLists((prevLists) => {
@@ -32,7 +58,7 @@ const Board = () => {
 
       // Add the card to the target list
       targetList.cards.push(sourceCard);
-
+      console.log(updatedLists)
       return updatedLists;
     });
   };
@@ -43,6 +69,7 @@ const Board = () => {
       const targetIndex = updatedLists.findIndex((list) => list.id === targetListId);
       const [removed] = updatedLists.splice(sourceIndex, 1);
       updatedLists.splice(targetIndex, 0, removed);
+      console.log(updatedLists)
       return updatedLists;
     });
   };
@@ -129,6 +156,7 @@ const Board = () => {
           />
         ))}
         <button onClick={addColumn}>Add Another List</button>
+        <Save lists={lists} />
         {showModal && (
           <div className="modal">
             <div className="modal-content">
