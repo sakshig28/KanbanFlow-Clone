@@ -2,10 +2,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React from 'react';
 import Board from './components/Board';
 import './App.css';
+import { Auth } from './components/auth';
 
 function App() {
   return (
     <div className="App">
+<<<<<<< HEAD
       <Router>
         <Routes>
           <Route index element={<Home />} />
@@ -13,6 +15,13 @@ function App() {
         </Routes>
       </Router>
      
+=======
+      <header className="App-header">
+        <h1 className="App-title">Chutes And Ladders</h1>
+      </header>
+      <Auth/>
+      <Board />
+>>>>>>> 28a66a4e2cbee4afda44baf161f7da7672f2f6a3
     </div>
   );
 }
