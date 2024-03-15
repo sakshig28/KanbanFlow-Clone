@@ -6,6 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { v4 as uuidv4 } from 'uuid';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase.mjs';
+import { auth } from '../config/firebase.mjs'
 
 const Board = () => {
   const [lists, setLists] = useState([
@@ -16,29 +17,52 @@ const Board = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState('');
+  const [userid, setUserid] = useState("")
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const listsCollection = collection(db, 'lists');
-        const querySnapshot = await getDocs(listsCollection);
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUserid(user.uid);
+        fetchData(user.uid);
+      } else {
+        setUserid(null); // No user signed in
+      }
+    });
+
+    // Cleanup function
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const fetchData = async (userid) => {
+    try {
+      const listsCollection = collection(db, `lists-${userid}`);
+      const querySnapshot = await getDocs(listsCollection);
+  
+      // Check if there is database entry from user
+      if (querySnapshot.empty) {
+        // If the user does not have an entry, give them the starter lists
+        setLists([
+          { id: uuidv4(), title: 'Todo', cards: [] },
+          { id: uuidv4(), title: 'In Progress', cards: [] },
+          { id: uuidv4(), title: 'Done', cards: [] },
+        ]);
+      } else {
+        // If the user has existing entries, display them
         const fetchedLists = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
+        fetchedLists.sort((a, b) => a.position - b.position);
         setLists(fetchedLists);
-      } catch (error) {
-        console.error('Error fetching data:', error);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  
 
-    fetchData();
-
-    // Cleanup function
-    return () => {
-      // Perform any cleanup if necessary
-    };
-  }, []);
 
   const handleCardDrop = (cardId, targetListId) => {
     setLists((prevLists) => {
@@ -58,6 +82,12 @@ const Board = () => {
 
       // Add the card to the target list
       targetList.cards.push(sourceCard);
+
+      // Update the position property
+      updatedLists.forEach((list, index) => {
+        list.position = index;
+      });
+
       console.log(updatedLists)
       return updatedLists;
     });
@@ -69,6 +99,11 @@ const Board = () => {
       const targetIndex = updatedLists.findIndex((list) => list.id === targetListId);
       const [removed] = updatedLists.splice(sourceIndex, 1);
       updatedLists.splice(targetIndex, 0, removed);
+
+      updatedLists.forEach((list, index) => {
+        list.position = index;
+      });
+
       console.log(updatedLists)
       return updatedLists;
     });
@@ -131,6 +166,7 @@ const Board = () => {
     if (newColumnTitle.trim() !== '') {
       const newColumn = {
         id: uuidv4(),
+        position: lists.length,
         title: newColumnTitle.trim(),
         cards: [],
       };

@@ -1,7 +1,7 @@
 import React from 'react';
 import Board from './components/Board';
 import './App.css';
-import {Auth}  from './components/auth';
+import Auth  from './components/auth';
 
 function App() {
   return (
