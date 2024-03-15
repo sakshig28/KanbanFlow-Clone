@@ -1,8 +1,7 @@
 import React from 'react';
 import { auth } from '../config/firebase.mjs'
 
-
-const Save = ({ lists }) => {
+const Save = ({ lists, boardID }) => {
   const getCurrentUserUid = () => {
     const currentUser = auth.currentUser;
     if (currentUser) {
@@ -20,7 +19,7 @@ const Save = ({ lists }) => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ lists, userid }) // Include userid in the request body
+        body: JSON.stringify({ lists, userid, boardID }) // Include userid and boardID in the request body
       });
       const data = await response.json();
       console.log(data.message); // Log the success message
@@ -35,4 +34,3 @@ const Save = ({ lists }) => {
 };
 
 export default Save;
-

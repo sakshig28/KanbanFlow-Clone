@@ -8,7 +8,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase.mjs';
 import { auth } from '../config/firebase.mjs'
 
-const Board = () => {
+const Board = ({ boardID }) => {
   const [lists, setLists] = useState([
     { id: uuidv4(), title: 'Todo', cards: [] },
     { id: uuidv4(), title: 'In Progress', cards: [] },
@@ -23,7 +23,7 @@ const Board = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUserid(user.uid);
-        fetchData(user.uid);
+        fetchData(user.uid, boardID);
       } else {
         setUserid(null); // No user signed in
       }
@@ -33,23 +33,23 @@ const Board = () => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [boardID]);
 
-  const fetchData = async (userid) => {
+  const fetchData = async (userID, boardID) => {
     try {
-      const listsCollection = collection(db, `lists-${userid}`);
+      const listsCollection = collection(db, `lists-${userID}-${boardID}`);
       const querySnapshot = await getDocs(listsCollection);
   
-      // Check if there is database entry from user
+      // Check if there is a database entry for the board
       if (querySnapshot.empty) {
-        // If the user does not have an entry, give them the starter lists
+        // If the board does not have an entry, give them the starter lists
         setLists([
           { id: uuidv4(), title: 'Todo', cards: [] },
           { id: uuidv4(), title: 'In Progress', cards: [] },
           { id: uuidv4(), title: 'Done', cards: [] },
         ]);
       } else {
-        // If the user has existing entries, display them
+        // If the board has existing entries, display them
         const fetchedLists = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -192,7 +192,7 @@ const Board = () => {
           />
         ))}
         <button onClick={addColumn}>Add Another List</button>
-        <Save lists={lists} />
+        <Save lists={lists} boardID={boardID} />
         {showModal && (
           <div className="modal">
             <div className="modal-content">
