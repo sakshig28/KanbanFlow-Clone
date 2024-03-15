@@ -1,39 +1,38 @@
-// Save.js
-
-import { collection, getDocs, deleteDoc, addDoc } from 'firebase/firestore';
-import { db } from "../config/firebase"; // Assuming you have a db instance exported from your firebase.js file
-
-
-const deleteCollection = async (db, collectionPath) => {
-    const querySnapshot = await getDocs(collection(db, collectionPath));
-    querySnapshot.forEach(async (doc) => {
-      await deleteDoc(doc.ref);
-    });
-  };
+import React from 'react';
+import { auth } from '../config/firebase.mjs'
 
 
 const Save = ({ lists }) => {
-    const saveData = async () => {
-      try {
-        // Delete all existing documents in the "lists" collection
-        await deleteCollection(db, "lists");
-  
-        // Add the updated lists to the "lists" collection
-        await Promise.all(
-          lists.map(async (list) => {
-            await addDoc(collection(db, "lists"), list);
-          })
-        );
-        
-        console.log("Data saved successfully!");
-      } catch (error) {
-        console.error("Error saving data:", error);
-      }
-    };
-  
-    return (
-      <button onClick={saveData}>Save</button>
-    );
+  const getCurrentUserUid = () => {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      return currentUser.uid;
+    } else {
+      return null; // No user signed in
+    }
   };
 
+  const saveData = async () => {
+    try {
+      const userid = getCurrentUserUid();
+      const response = await fetch("http://localhost:5510/save", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ lists, userid }) // Include userid in the request body
+      });
+      const data = await response.json();
+      console.log(data.message); // Log the success message
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  };
+
+  return (
+    <button onClick={saveData}>Save</button>
+  );
+};
+
 export default Save;
+
