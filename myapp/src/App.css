@@ -1,8 +1,8 @@
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
-  padding: 0;
-  background-color: #f5f5f5;
+  padding: 20px;
+  background-color: #bebebe;
 }
 
 .App {
@@ -11,7 +11,7 @@ body {
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #0043caab;
   padding: 20px;
   color: white;
 }
