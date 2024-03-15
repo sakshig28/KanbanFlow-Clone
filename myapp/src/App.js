@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React from 'react';
 import Board from './components/Board';
 import './App.css';
-import { Auth } from './components/auth';
+import Auth  from './components/auth';
 
 function App() {
   return (
