@@ -52,24 +52,29 @@ const Auth = () => {
     };
 
     return (
-        <div>
-            <input 
-                placeholder="email..." 
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            
-            <input 
-                placeholder="password..."
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <button onClick={signIn}> Sign In </button>
-            <button onClick={signInWithGoogle}> Sign In With Google </button>
-            <button onClick={logout}> Logout </button>
-            
-            
+        <div className="auth-container">
+            {currentUser ? (
+                <button className="logout-btn" onClick={logout}> Logout </button>
+            ) : (
+                <div className="login-form">
+                    <h1 className="h1login">Please Login</h1>
+                    <input 
+                        className="input-field" 
+                        placeholder="Email" 
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <input 
+                        className="input-field"
+                        type="password"
+                        placeholder="Password"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button className="login-btn" onClick={signIn}> Sign In </button>
+                    <button className="google-btn" onClick={signInWithGoogle}> Sign In With Google </button>
+                </div>
+            )}
         </div>
     );
+      
 };
 export default Auth;
