@@ -99,3 +99,25 @@ body {
 .delete-list-button:hover {
   background-color: #bd2130;
 }
+
+.column {
+  text-align: center;
+  color: #fff;
+  float: left;
+  width: 29.84%;
+  border: 1px solid #ffffff;
+  background-color: #0043caab;
+  padding: 5px;
+  margin: 0 10px;
+}
+
+.row:after{
+  content: "";
+  display: table;
+  clear: both;
+}
+
+a:link,
+a:visited {
+  color: #FFF;
+}

@@ -22,11 +22,11 @@ function LandingPage() {
         <Auth />
       </header>
       <body>
+        <div className = "card">
+          Welcome to Chutes and Ladders!
         <br />
-        Welcome to Chutes and Ladders!
-        <br />
-        <br />
-        Please sign in above to gain access to your saved boards or click on Trello App to use it in your browser!
+          Please sign in above to gain access to your saved boards or click on Trello App to use it in your browser!
+        </div>
       </body>
     </div>
   );
@@ -37,9 +37,9 @@ function RegistrationPage() {
     <div className="App">
       <header className="App-header">
         <h1 className="App-title">Chutes And Ladders</h1>
-        <br />
-        <Register />
       </header>
+      <br />
+      <Register />
     </div>
   );
 }
@@ -58,13 +58,18 @@ function TrelloApp() {
 function App() {
   return(
     <Router>
-      <div>
-        <Link to ="/" > Landing Page </Link>
-        <br />
-        <Link to ="/registration">Registration</Link>
-        <br />
-        <Link to ="/trello">Trello App</Link>
+      <div className = "row">
+        <div className = "column">
+          <Link to ="/" >Landing Page and Login</Link>
+        </div>
+        <div className = "column">
+          <Link to ="/registration">Registration</Link>
+        </div>
+        <div className = "column">
+          <Link to ="/trello">Trello App</Link>
+        </div>
       </div>
+      
 
       <Routes>
         <Route path ="/" element = {<LandingPage />} />
@@ -72,7 +77,6 @@ function App() {
         <Route path ="/registration" element = {<RegistrationPage />} />
 
         <Route path ="/trello" element = {<TrelloApp />} />
-
       </Routes>
     </Router>
   );
