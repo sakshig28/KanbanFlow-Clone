@@ -3,7 +3,7 @@ import Card from './Card';
 import Dropdown from './Dropdown';
 import { useDrop, useDrag } from 'react-dnd';
 
-const List = ({ list, cards, onCardDrop, onCreateCard, onDeleteColumn, onUpdateCardContent, onListDrop }) => {
+const List = ({ list, cards, onCardDrop, onCreateCard, onDeleteColumn, onUpdateCardContent, onListDrop, onDeleteCard }) => {
   const [, cardDrop] = useDrop({
     accept: 'CARD',
     drop: (item) => onCardDrop(item.cardId, list.id),
@@ -26,12 +26,14 @@ const List = ({ list, cards, onCardDrop, onCreateCard, onDeleteColumn, onUpdateC
     <div ref={drag} className={`list ${isDragging ? 'dragging' : ''}`}>
       <div ref={listDrop} className="list1"> 
       <div ref={cardDrop} className="list1">
-        <h3>{list.title}</h3>
+        <h5 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>{list.title}
         <Dropdown>
-          <button onClick={() => onDeleteColumn(list.id)}>Delete Column</button>
+          <button class="dropdown-item" type="button" onClick={() => onDeleteColumn(list.id)}>Delete Column</button>
         </Dropdown>
+        </h5>
         {cards.map((card) => (
-          <Card key={card.id} card={card} onUpdateCardContent={onUpdateCardContent} />
+          <Card key={card.id} card={card} onUpdateCardContent={onUpdateCardContent} onDeleteCard={onDeleteCard} // Pass the onDeleteCard function to the Card component
+          />
         ))}
         <button onClick={() => onCreateCard(list.id)}>Add New Card</button>
         </div>

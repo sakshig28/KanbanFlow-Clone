@@ -176,6 +176,17 @@ const Board = () => {
     }
   };
 
+  const handleDeleteCard = (cardId) => {
+    setLists(prevLists => {
+      const updatedLists = prevLists.map(list => {
+        // Filter out the card with the matching cardId
+        list.cards = list.cards.filter(card => card.id !== cardId);
+        return list;
+      });
+      return updatedLists;
+    });
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="board">
@@ -189,7 +200,8 @@ const Board = () => {
             onDeleteColumn={handleDeleteColumn}
             onUpdateCardContent={handleUpdateCardContent}
             onListDrop={handleListDrop}
-          />
+            onDeleteCard={handleDeleteCard}
+            />
         ))}
         <button onClick={addColumn}>Add Another List</button>
         <Save lists={lists} />
