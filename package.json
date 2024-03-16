@@ -1,8 +1,11 @@
 {
-<<<<<<< HEAD
-  "name": "my-react-app",
-  "version": "0.1.0",
+  "name": "kanbanflow-clone-1",
+  "version": "1.0.0",
+  "description": "KanbanFlow Clone is a simplified, web-based project management application inspired by Trello. It aims to implement the core functionalities of a Kanban board to allow users to manage their tasks and projects efficiently. The application will provide an intuitive interface for users to create boards, lists, and cards that represent different stages of a project workflow. With a focus on simplicity and usability, KanbanFlow Clone will be developed using basic HTML, CSS, and JavaScript for the frontend, with a Node.js backend to handle data persistence and application logic",
+  "main": "index.js",
   "private": true,
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -10,7 +13,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "cors": "^2.8.5",
+    "firebase": "^10.8.1",
+    "react-router-dom": "^6.22.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,20 +41,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-=======
-  "name": "kanbanflow-clone-1",
-  "version": "1.0.0",
-  "description": "KanbanFlow Clone is a simplified, web-based project management application inspired by Trello. It aims to implement the core functionalities of a Kanban board to allow users to manage their tasks and projects efficiently. The application will provide an intuitive interface for users to create boards, lists, and cards that represent different stages of a project workflow. With a focus on simplicity and usability, KanbanFlow Clone will be developed using basic HTML, CSS, and JavaScript for the frontend, with a Node.js backend to handle data persistence and application logic",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "firebase": "^10.8.1",
-    "react-router-dom": "^6.22.3"
->>>>>>> 642248c8f4f9c4e61e29d8a7cbff9c9d98ec964b
   }
 }
