@@ -66,7 +66,7 @@ function App() {
           <Link to ="/registration">Registration</Link>
         </div>
         <div className = "column">
-          <Link to ="/trello">Trello App</Link>
+          <Link to ="/trello">Chutes and Ladders App</Link>
         </div>
       </div>
       

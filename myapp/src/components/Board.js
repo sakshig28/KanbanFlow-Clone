@@ -44,7 +44,7 @@ const Board = () => {
       if (querySnapshot.empty) {
         // If the user does not have an entry, give them the starter lists
         setLists([
-          { id: uuidv4(), title: 'Todo', cards: [] },
+          { id: uuidv4(), title: 'To do', cards: [] },
           { id: uuidv4(), title: 'In Progress', cards: [] },
           { id: uuidv4(), title: 'Done', cards: [] },
         ]);
