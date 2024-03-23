@@ -176,6 +176,9 @@ const Board = () => {
     }
   };
 
+  if (!userid) {
+    return null; // If no user is logged in, return null to render nothing
+  }
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="board">
